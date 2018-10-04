@@ -3,6 +3,7 @@ package us.ervin.providerdir.providerdirectory.domain;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,6 +17,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Provider {
 
 	@Id
+	@GeneratedValue
+	private Integer id;
+	
 	@Basic
 	@Column(name = "email_address")
 	@JsonProperty("email_address")

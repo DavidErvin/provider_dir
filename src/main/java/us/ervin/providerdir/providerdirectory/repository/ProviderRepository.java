@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import us.ervin.providerdir.providerdirectory.domain.Provider;
 
 @Repository
-public interface ProviderRepository extends CrudRepository<Provider, String> {
+public interface ProviderRepository extends CrudRepository<Provider, Integer> {
 
 }
