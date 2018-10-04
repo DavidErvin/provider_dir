@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Data
 @Entity
 public class Provider {
@@ -14,14 +16,17 @@ public class Provider {
 	@Id
 	@Basic
 	@Column(name = "email_address")
+	@JsonProperty("email_address")
 	private String email;
 	
 	@Basic
 	@Column(name = "last_name")
+	@JsonProperty("last_name")
 	private String lastName;
 	
 	@Basic
 	@Column(name = "first_name")
+	@JsonProperty("first_name")
 	private String firstName;
 	
 	@Basic
@@ -30,5 +35,6 @@ public class Provider {
 	
 	@Basic
 	@Column(name = "practice_name")
+	@JsonProperty("practice_name")
 	private String practiceName;
 }
