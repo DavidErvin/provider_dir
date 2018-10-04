@@ -9,26 +9,24 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import us.ervin.providerdir.providerdirectory.domain.Provider;
 import us.ervin.providerdir.providerdirectory.repository.ProviderRepository;
 
-@Controller
+@RestController
 @Slf4j
-@RequestMapping("/provider")
 public class ProviderRestController {
 
 	@Autowired
 	private ProviderRepository providerRepo;
 	
-	@GetMapping
+	@GetMapping("/provider")
 	public List<Provider> getProviders() {
 		log.debug("Getting all providers");
 		List<Provider> providers = new ArrayList<>();
@@ -37,7 +35,7 @@ public class ProviderRestController {
 	}
 	
 	
-	@PostMapping
+	@PostMapping("/provider")
 	public ResponseEntity<Provider> addProvider(Provider provider) {
 		log.debug("Creating a new provider");
 		provider = providerRepo.save(provider);
@@ -48,7 +46,7 @@ public class ProviderRestController {
 	}
 	
 	
-	@GetMapping("/{id}")
+	@GetMapping("/provider/{id}")
 	public Provider getSingleProvider(@PathVariable("id") Integer id) {
 		log.debug("Getting provider " + id);
 		Optional<Provider> provider = providerRepo.findById(id);
@@ -61,7 +59,7 @@ public class ProviderRestController {
 	}
 	
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/provider/{id}")
 	public void removeSingleProvider(@PathVariable("id") Integer id) {
 		log.debug("Removing provider " + id);
 		providerRepo.deleteById(id);
