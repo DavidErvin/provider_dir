@@ -62,6 +62,8 @@ public class ProviderRestController {
 	@DeleteMapping("/provider/{id}")
 	public void removeSingleProvider(@PathVariable("id") Integer id) {
 		log.debug("Removing provider " + id);
-		providerRepo.deleteById(id);
+		if (providerRepo.existsById(id)) {
+			providerRepo.deleteById(id);
+		}
 	}
 }
