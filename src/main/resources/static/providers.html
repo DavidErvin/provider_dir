@@ -11,7 +11,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p>Hello Providers!</p>
+	<div class="container-fluid">
+		<h1>Provider Directory</h1>
+		<p>v2.0</p>
+		<div class="row">
+			<div class="col-4">
+				<h5>Create Provider</h5>
+				<form action="/providers" method="post"> <!-- TODO: intercept that, to JSON -->
+					<label for="last_name">Last Name</label> 
+      				<input type="text" id="last_name"><br/>
+					<label for="first_name">First Name</label> 
+      				<input type="text" id="first_name"><br/>
+      				<label for="email_address">Email Address</label>
+      				<input type="text" id="email_address"><br/>
+      				<label for="specialty">Specialty</label>
+      				<input type="text" id="specialty"></br>
+      				<label for="practice_name">Practice Name</label>
+      				<input type="text" id="practice_name"></br>
+      				<input type="submit" value="Submit">
+				</form>
+			</div>
+			<div class="col-6">
+				<h5>Provider List</h5>
+			</div>
+		</div>
+	</div>
+    
     <!-- bootstrap needs some JS to do its thing -->
     <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
