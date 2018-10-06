@@ -5,10 +5,48 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<!-- Bootstrap from their CDN -->
+	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Provider Directory</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <!-- bootstrap needs some JS to do its thing -->
+    <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+		function ConvertFormToJSON(form) {
+	    	var array = jQuery(form).serializeArray();
+	    	var json = {};
+    		
+	    	jQuery.each(array, function() {
+    	    	json[this.name] = this.value || '';
+    		});
+    		
+    		return json;
+		}
+		
+		jQuery(document).on('ready', function() {
+   			jQuery('form#create_provider').bind('submit', function(event) {
+        		event.preventDefault();
+				
+        		var form = this;
+        		var json = ConvertFormToJSON(form);
+        		
+        		alert(json)
+				
+        		$.ajax({
+            		type: "POST",
+            		url: "providers",
+            		data: json,
+            		dataType: "json"
+        		}).fail(function() { 
+					alert("Failed to add to-do");
+				});
+    		});
+		});
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -17,17 +55,28 @@
 		<div class="row">
 			<div class="col-4">
 				<h5>Create Provider</h5>
-				<form action="/providers" method="post"> <!-- TODO: intercept that, to JSON -->
-					<label for="last_name">Last Name</label> 
-      				<input type="text" id="last_name"><br/>
-					<label for="first_name">First Name</label> 
-      				<input type="text" id="first_name"><br/>
+				<form id="create_provider">
+					<label for="last_name">Last Name</label>
+					<div class="col-2">
+      					<input type="text" id="last_name"><br/>
+      				</div>
+					<label for="first_name">First Name</label>
+					<div class="col-2"> 
+      					<input type="text" id="first_name"><br/>
+      				</div>
       				<label for="email_address">Email Address</label>
-      				<input type="text" id="email_address"><br/>
+      				<div class="col-2">
+      					<input type="text" id="email_address"><br/>
+      				</div>
       				<label for="specialty">Specialty</label>
-      				<input type="text" id="specialty"></br>
+      				<div class="col-2">
+      					<input type="text" id="specialty"></br>
+      				</div>
       				<label for="practice_name">Practice Name</label>
-      				<input type="text" id="practice_name"></br>
+      				<div class="col-2">
+      					<input type="text" id="practice_name"><br/>
+      				</div>
+      				<br/>
       				<input type="submit" value="Submit">
 				</form>
 			</div>
@@ -36,10 +85,5 @@
 			</div>
 		</div>
 	</div>
-    
-    <!-- bootstrap needs some JS to do its thing -->
-    <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>
