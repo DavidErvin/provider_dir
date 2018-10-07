@@ -81,7 +81,45 @@
 				</form>
 			</div>
 			<div class="col-6">
-				<h5>Provider List</h5>
+				<!-- Provider List container -->
+				<div class="row">
+					<div class="col-sm">
+						<h5>Provider List</h5>
+					</div>
+					<div class="col-sm">
+						<select name="sort">
+							<option value="sort" disabled selected>Sort By...</option>
+							<option value="first_name">First Name</option>
+							<option value="last_name">Last Name</option>
+							<option value="email_address">Email Address</option>
+							<option value="specialty">Specialty</option>
+							<option value="practice_name">Practice Name</option>
+						</select>
+					</div>
+				</div>
+				<!-- provider list table -->
+				<div class="container-fluid">
+					<table class="table-borderless">
+						<tbody>
+							<!-- need to iterate rows from the JSON data -->
+							<tr>
+								<th scope="row" class="col-1"><input type="checkbox"/></th>
+								<td class="col-7">
+									<b>Last Name, First Name</b>
+								</td>
+								<td class="col-2" align="right">
+									<b>Specialty</b>
+								</td>
+							</tr>
+							<tr>
+								<!-- alignment placeholder -->
+								<th scope="row" class="col-1"/>
+								<td class="class="col-5">email@example.com</td>
+								<td class="col-4" align="right">Practice Name</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
