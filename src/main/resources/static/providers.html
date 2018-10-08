@@ -11,41 +11,44 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     
     <!-- bootstrap needs some JS to do its thing -->
+    <!-- don't use slim, it doesn't include ajax 
     <script src="jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    -->
+    <script src="jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    
-    <script type="text/javascript">
-		function ConvertFormToJSON(form) {
-	    	var array = jQuery(form).serializeArray();
-	    	var json = {};
-    		
-	    	jQuery.each(array, function() {
-    	    	json[this.name] = this.value || '';
-    		});
-    		
-    		return json;
-		}
-		
-		jQuery(document).on('ready', function() {
-   			jQuery('form#create_provider').bind('submit', function(event) {
-        		event.preventDefault();
-				
-        		var form = this;
-        		var json = ConvertFormToJSON(form);
-        		
-        		alert(json)
-				
-        		$.ajax({
-            		type: "POST",
-            		url: "providers",
-            		data: json,
-            		dataType: "json"
-        		}).fail(function() { 
-					alert("Failed to add to-do");
-				});
-    		});
-		});
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+	
+		// handle provider submissions
+    	$('form').submit(function(event) {
+    		var formData = {
+            	'first_name' : $('input[name=first_name]').val(),
+            	'last_name' : $('input[name=lasst_name]').val(),
+            	'email_address'	: $('input[name=email_address]').val(),
+            	'specialty' : $('input[name=specialty]').val(),
+            	'practice_name' : $('input[name=practice_name]').val()
+        	};
+
+        	// process the form
+        	$.ajax({
+            	type        : 'POST',
+	            url         : 'provider',
+    	        data        : formData,
+        	    dataType    : 'json',
+				encode      : true
+        	}).done(function(data) {
+				// log data to the console so we can see
+	            console.log(data); 
+
+    	        // here we will handle errors and validation messages
+			});
+
+    	    // stop the form from submitting the normal way and refreshing the page
+        	event.preventDefault();
+    	});
+    	});
 	</script>
 </head>
 <body>
@@ -55,7 +58,7 @@
 		<div class="row">
 			<div class="col-4">
 				<h5>Create Provider</h5>
-				<form id="create_provider">
+				<form id="create_provider" action="/providers" method="POST">
 					<label for="last_name">Last Name</label>
 					<div class="col-2">
       					<input type="text" id="last_name"><br/>
@@ -77,7 +80,7 @@
       					<input type="text" id="practice_name"><br/>
       				</div>
       				<br/>
-      				<input type="submit" value="Submit">
+      				<button type="submit">Submit</button>
 				</form>
 			</div>
 			<div class="col-6">
@@ -86,7 +89,7 @@
 					<div class="col-sm">
 						<h5>Provider List</h5>
 					</div>
-					<div class="col-sm">
+					<div class="col-sm no-gutters" align="right">
 						<select name="sort">
 							<option value="sort" disabled selected>Sort By...</option>
 							<option value="first_name">First Name</option>
@@ -98,28 +101,26 @@
 					</div>
 				</div>
 				<!-- provider list table -->
-				<div class="container-fluid">
-					<table class="table-borderless">
-						<tbody>
-							<!-- need to iterate rows from the JSON data -->
-							<tr>
-								<th scope="row" class="col-1"><input type="checkbox"/></th>
-								<td class="col-7">
-									<b>Last Name, First Name</b>
-								</td>
-								<td class="col-2" align="right">
-									<b>Specialty</b>
-								</td>
-							</tr>
-							<tr>
-								<!-- alignment placeholder -->
-								<th scope="row" class="col-1"/>
-								<td class="class="col-5">email@example.com</td>
-								<td class="col-4" align="right">Practice Name</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+				<table class="table table-borderless">
+					<tbody id="provider-table-body">
+						<!--
+						<tr>
+							<th scope="row" class="col-1"><input type="checkbox"/></th>
+							<td class="col-8">
+								<b>Last Name, First Name</b>
+							</td>
+							<td class="col-3" align="right">
+								<b>Specialty</b>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row" class="col-1"/>
+							<td class="class="col-7">email@example.com</td>
+							<td class="col-4" align="right">Practice Name</td>
+						</tr>
+						-->
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
