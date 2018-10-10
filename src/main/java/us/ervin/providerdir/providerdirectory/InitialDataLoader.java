@@ -38,5 +38,6 @@ public class InitialDataLoader {
 		
 		log.debug("Persisting initial providers");
 		providerRepo.saveAll(initialProviders);
+		providerRepo.flush();
 	}
 }

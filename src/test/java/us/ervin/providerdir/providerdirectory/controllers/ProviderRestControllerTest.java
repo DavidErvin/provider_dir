@@ -11,6 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import javax.transaction.Transactional;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,11 +22,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import us.ervin.providerdir.providerdirectory.InitialDataLoader;
 import us.ervin.providerdir.providerdirectory.ProviderDirectoryApplication;
 import us.ervin.providerdir.providerdirectory.domain.Provider;
+import us.ervin.providerdir.providerdirectory.repository.ProviderRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -34,11 +40,26 @@ public class ProviderRestControllerTest {
 	@Autowired
 	private WebApplicationContext context;
 	
+	@Autowired
+	private ProviderRepository providerRepo;
+	
+	@Autowired
+	private InitialDataLoader initialLoader;
+	
 	private MockMvc mockMvc;
 
-	@Before
+	@Before @Transactional
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+	}
+	
+	
+	@After
+	public void shutDown() {
+		providerRepo.deleteAllInBatch();
+		providerRepo.flush();
+		
+		initialLoader.loadData();
 	}
 	
 	
@@ -81,6 +102,27 @@ public class ProviderRestControllerTest {
 			.andExpect(status().isCreated())
 			.andExpect(header().string("Location", containsString("provider/7")))
 			.andReturn().getResponse().getHeader("Location");
+	}
+	
+	
+	@Test
+	public void testAddProviderFromJson() throws Exception {
+		String json = "" + 
+				"{\"specialty\" : \"awesome specialty\", " +
+				"\"email_address\" : \"email\", " +
+				"\"last_name\" : \"last\", " +
+				"\"first_name\" : \"first\", " +
+				"\"practice_name\" : \"practice\" }";
+		
+		mockMvc.perform(post("/provider").content(json).contentType("application/json"))
+			.andExpect(status().isCreated());
+			// .andExpect(header().string("Location", containsString("provider/7")));
+		
+		// can we find it??
+		String content = mockMvc.perform(get("/provider"))
+			.andReturn().getResponse().getContentAsString();
+		
+		assertThat(content, containsString("awesome specialty"));
 	}
 	
 	
