@@ -33,7 +33,7 @@ public class ProviderRestController {
 	@Autowired
 	private ProviderRepository providerRepo;
 	
-	@GetMapping(produces = "application/json")
+	@GetMapping
 	public List<Provider> getProviders() {
 		log.debug("Getting all providers");
 		List<Provider> providers = new ArrayList<>();
@@ -61,7 +61,7 @@ public class ProviderRestController {
 	}
 	
 	
-	@GetMapping(path = "/{id}", consumes = "application/json")
+	@GetMapping(path = "/{id}")
 	public Provider getSingleProvider(@PathVariable("id") Integer id) {
 		log.debug("Getting provider " + id);
 		Optional<Provider> provider = providerRepo.findById(id);

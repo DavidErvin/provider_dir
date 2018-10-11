@@ -13,16 +13,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.transaction.Transactional;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -54,13 +54,13 @@ public class ProviderRestControllerTest {
 	}
 	
 	
-	@After
+	/*@After
 	public void shutDown() {
 		providerRepo.deleteAllInBatch();
 		providerRepo.flush();
 		
 		initialLoader.loadData();
-	}
+	}*/
 	
 	
 	@Test
@@ -76,7 +76,7 @@ public class ProviderRestControllerTest {
 	
 	@Test
 	public void testGetSingleProvider() throws Exception {
-		mockMvc.perform(get("/provider/1"))
+		mockMvc.perform(get("/provider/1").accept("application/json"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.specialty", is("Pediatrics")));
 	}
@@ -84,28 +84,13 @@ public class ProviderRestControllerTest {
 	
 	@Test
 	public void testGetSingleProviderDoesntExist() throws Exception {
-		mockMvc.perform(get("/provider/100000"))
+		mockMvc.perform(get("/provider/100000").accept("application/json"))
 			.andExpect(status().isNotFound());
 	}
 	
 	
 	@Test
-	public void testAddProvider() throws Exception {
-		Provider p = new Provider();
-		p.setEmail("somebody@example.com");
-		p.setFirstName("Some");
-		p.setLastName("Body");
-		p.setSpecialty("Phlebotomy");
-		p.setPracticeName("Example bloodletters");
-		
-		mockMvc.perform(post("/provider", p))
-			.andExpect(status().isCreated())
-			.andExpect(header().string("Location", containsString("provider/7")))
-			.andReturn().getResponse().getHeader("Location");
-	}
-	
-	
-	@Test
+	@DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
 	public void testAddProviderFromJson() throws Exception {
 		String json = "" + 
 				"{\"specialty\" : \"awesome specialty\", " +
@@ -127,6 +112,7 @@ public class ProviderRestControllerTest {
 	
 	
 	@Test
+	@DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
 	public void testDeleteProvider() throws Exception {
 		mockMvc.perform(delete("/provider/2"))
 			.andExpect(status().isOk());
