@@ -17,43 +17,8 @@
     <script src="jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	
-	<script type="text/javascript">
-		$(document).ready(function() {
-			// handle provider submissions
-    		$('form').submit(function(event) {
-    			// build the JSON structure we'll send over
-    			var formData = { 
-            		'first_name' : $('input[name=first_name]').val(),
-            		'last_name' : $('input[name=last_name]').val(),
-            		'email_address'	: $('input[name=email_address]').val(),
-            		'specialty' : $('input[name=specialty]').val(),
-            		'practice_name' : $('input[name=practice_name]').val()
-        		};
-			
-        		// POST the form contents to the /provider REST endpoint
-        		$.ajax({
-            		type        : 'POST',
-		            url         : 'provider',
-    		        data        : JSON.stringify(formData),
-    		        contentType : "application/json; charset=utf-8",
-        		    dataType    : 'json',
-					encode      : false
-	        	}).done(function(data) {
-					// log data to the console so we can see
-	    	        console.log(data); 
-				});
-
-    	    	// stop the form from submitting the normal way and refreshing the page
-        		event.preventDefault();
-        		
-				// clear out the form with plain old JS
-    		    document.getElementById("create_provider").reset();
-    		});
-    		
-    		// load providers from the rest endpoint and present a table-ish structure
-    	});
-	</script>
+	<script src="provider-form-post.js" crossorigin="anonymous"></script>
+	<script src="provider-table-load.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -104,27 +69,9 @@
 						</select>
 					</div>
 				</div>
-				<!-- provider list table -->
-				<table class="table table-borderless">
-					<tbody id="provider-table-body">
-						<!--
-						<tr>
-							<th scope="row" class="col-1"><input type="checkbox"/></th>
-							<td class="col-8">
-								<b>Last Name, First Name</b>
-							</td>
-							<td class="col-3" align="right">
-								<b>Specialty</b>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row" class="col-1"/>
-							<td class="class="col-7">email@example.com</td>
-							<td class="col-4" align="right">Practice Name</td>
-						</tr>
-						-->
-					</tbody>
-				</table>
+				<!-- provider list -->
+				<div class="container" id="provider-container">
+				</div>
 			</div>
 		</div>
 	</div>
