@@ -17,8 +17,8 @@
     <script src="jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<script src="provider-form-post.js" crossorigin="anonymous"></script>
 	<script src="provider-table-load.js" crossorigin="anonymous"></script>
+	<script src="provider-form-post.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -63,7 +63,7 @@
 							<option value="sort" disabled selected>Sort By...</option>
 							<option value="firstName">First Name</option>
 							<option value="lastName">Last Name</option>
-							<option value="emailAddress">Email Address</option>
+							<option value="email">Email Address</option>
 							<option value="specialty">Specialty</option>
 							<option value="practiceName">Practice Name</option>
 						</select>
@@ -71,6 +71,12 @@
 				</div>
 				<!-- provider list -->
 				<div class="container" id="provider-container">
+				</div>
+				<!-- delete button -->
+				<div class="container">
+					<div class="col-2" align="right">
+						<button type="submit" id="provider_delete">Delete Selected</button>
+					</div>
 				</div>
 			</div>
 		</div>

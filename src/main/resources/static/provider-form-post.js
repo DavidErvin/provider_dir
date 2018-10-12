@@ -1,6 +1,3 @@
-/**
- * 
- */
 $(document).ready(function() {
 	// handle provider submissions
 	$('form').submit(function(event) {

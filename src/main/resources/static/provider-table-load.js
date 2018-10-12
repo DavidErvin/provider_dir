@@ -1,6 +1,3 @@
-/**
- * 
- */
 function loadProviders() {
 	// get the provider table body
 	var providerTable = $("#provider-container");
