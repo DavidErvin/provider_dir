@@ -1,7 +1,7 @@
 /**
  * 
  */
-$(document).ready(function() {
+function loadProviders() {
 	// get the provider table body
 	var providerTable = $("#provider-container");
 	
@@ -32,12 +32,17 @@ $(document).ready(function() {
 						'</div>' +
 						'<div class="col-6" align="right">' +
 							'<p>' + item.practice_name + '</p>' +
-						'</div>' +
+							'</div>' +
 					'</div>' +
-				'</div>';
+			'</div>';
 			
 			var providerContent = $(HTML);
 			providerContent.appendTo(providerTable);
 		});
 	});
+	return this;
+}
+
+$(document).ready(function() {
+	loadProviders();
 });
