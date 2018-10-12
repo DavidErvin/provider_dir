@@ -5,12 +5,22 @@ function loadProviders() {
 	// get the provider table body
 	var providerTable = $("#provider-container");
 	
+	// figure out if we're sorting
+	var dropdown = $("#sort_dropdown");
+	var sortSelection = dropdown.val();
+	var getProvidersUrl = 'provider';
+	if (sortSelection != null) {
+		getProvidersUrl += '?sort=' + sortSelection;
+	}
+	
 	// get providers from the REST endpoint
 	$.ajax({
 		type: 'GET',
-		url: 'provider',
+		url: getProvidersUrl,
 		dataType: 'json'
 	}).done(function(json) {
+		// clean out any children of the provider table now
+		providerTable.empty();
 		// not a string, but real live JSON!
 		$.each(json, function(i, item) {
 			// now I've got an individual provider record
@@ -44,5 +54,12 @@ function loadProviders() {
 }
 
 $(document).ready(function() {
+	// load providers when the page loads
 	loadProviders();
+	
+	// attach a callback to the search drop down
+	var dropdown = $("#sort_dropdown");
+	dropdown.on("change", function() {
+		loadProviders();
+	});
 });

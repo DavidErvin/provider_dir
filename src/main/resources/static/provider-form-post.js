@@ -31,5 +31,7 @@ $(document).ready(function() {
 
 		// clear out the form with plain old JS
 		document.getElementById("create_provider").reset();
+		
+		loadProviders();
 	});
 });
