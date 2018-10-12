@@ -1,6 +1,6 @@
 function loadProviders() {
 	// get the provider table body
-	var providerTable = $("#provider-container");
+	var providerTable = $("#provider_container");
 	
 	// figure out if we're sorting
 	var dropdown = $("#sort_dropdown");
@@ -24,7 +24,8 @@ function loadProviders() {
 			var HTML = 
 				'<div class="container-fluid">' +
 					'<div class="row">' +
-						'<input class="col-1" type="checkbox" id="provider_id_check_x"></input>' +
+						'<input class="col-1" type="checkbox" ' +
+							'id="provider_check_' + item.id + '" name="' + item.id + '"></input>' +
 						'<div class="col-6" align="left">' +
 						'<h5>' + item.last_name + ', ' + item.first_name + '</h5>' +
 					'</div>' +
@@ -39,7 +40,7 @@ function loadProviders() {
 						'</div>' +
 						'<div class="col-6" align="right">' +
 							'<p>' + item.practice_name + '</p>' +
-							'</div>' +
+						'</div>' +
 					'</div>' +
 			'</div>';
 			
