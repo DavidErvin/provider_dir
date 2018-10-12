@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +27,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import us.ervin.providerdir.providerdirectory.InitialDataLoader;
 import us.ervin.providerdir.providerdirectory.ProviderDirectoryApplication;
-import us.ervin.providerdir.providerdirectory.domain.Provider;
 import us.ervin.providerdir.providerdirectory.repository.ProviderRepository;
 
 @RunWith(SpringRunner.class)
@@ -54,15 +52,6 @@ public class ProviderRestControllerTest {
 	}
 	
 	
-	/*@After
-	public void shutDown() {
-		providerRepo.deleteAllInBatch();
-		providerRepo.flush();
-		
-		initialLoader.loadData();
-	}*/
-	
-	
 	@Test
 	public void testGetProviders() throws Exception {
 		String content = mockMvc.perform(get("/provider"))
@@ -71,6 +60,14 @@ public class ProviderRestControllerTest {
 			.andReturn().getResponse().getContentAsString();
 		
 		assertThat(content, containsString("Juday Family Practice"));
+	}
+	
+	
+	@Test
+	public void testGetProvidersSort() throws Exception {
+		mockMvc.perform(get("/provider?sort=lastName"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$[0].last_name", is("Carlson")));
 	}
 	
 	
