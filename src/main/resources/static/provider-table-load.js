@@ -19,19 +19,19 @@ $(document).ready(function() {
 					'<div class="row">' +
 						'<input class="col-1" type="checkbox" id="provider_id_check_x"></input>' +
 						'<div class="col-6" align="left">' +
-						'<h5>Last Name, First Name</h5>' +
+						'<h5>' + item.last_name + ', ' + item.first_name + '</h5>' +
 					'</div>' +
 					'<div class="col-5" align="right">' +
-						'<p><b>Specialty</b></p>' +
+						'<p><b>' + item.specialty + '</b></p>' +
 					'</div>' +
 				'</div>' +
 				'<div class="row">' +
 					'<div class="col-1"></div>' +
 						'<div class="col-5">' +
-							'<p>Email address</p>' +
+							'<p>' + item.email_address + '</p>' +
 						'</div>' +
 						'<div class="col-6" align="right">' +
-							'<p>Practice name</p>' +
+							'<p>' + item.practice_name + '</p>' +
 						'</div>' +
 					'</div>' +
 				'</div>';
